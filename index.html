@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Virtual</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: 'Georgia', serif;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #f5e6d3, #e9cfae);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .envelope {
+    width: 300px;
+    height: 200px;
+    background: #d9b88c;
+    position: relative;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+
+  .flap {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #caa472;
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 3;
+  }
+
+  .envelope.open .flap {
+    transform: rotateX(180deg);
+  }
+
+  .letter {
+    position: absolute;
+    bottom: -100%;
+    width: 100%;
+    height: 100%;
+    background: #fffdf8;
+    padding: 20px;
+    transition: bottom 0.8s ease;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .envelope.open .letter {
+    bottom: 0;
+  }
+
+  .text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  button {
+    border: none;
+    background: #caa472;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .hint {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #5c4630;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="envelope" id="envelope">
+  <div class="flap"></div>
+
+  <div class="letter">
+    <div class="text" id="text"></div>
+    <button id="nextBtn">Próximo</button>
+  </div>
+
+  <div class="hint">Toque para abrir ✉️</div>
+</div>
+
+<script>
+  const textos = [
+   "oi amiga",
+   "venho por meio dessas linhas de códigos declarar meu amor por vc",
+   "é a primeira vez que eu to fazendo algo assim de programção ent espero q vc goste",
+   "quero te dizer que vc é amor, por onde passa vc deixa sua marca, vc é extremamente engraçada, uma alma boa. Eu amo ser seu amg de todas as formas, desde a gnt passando tempo junto",
+   "vc é muito especial pra mim, e eu desejo tudo de bom pra vc, já que vc é minha irmã. Sinto saudades suas em muitas coias, mas principalmente em ser parceira de tiktok :(",
+   "gosto de vc de graça amg de vdd, sinto muito por n conseguir participar presencialmente de um dia especial para uma pessoa tão especial, eu te amo muito",
+  ];
+
+  let index = 0;
+  let opened = false;
+
+  const envelope = document.getElementById("envelope");
+  const textEl = document.getElementById("text");
+  const nextBtn = document.getElementById("nextBtn");
+
+  envelope.addEventListener("click", () => {
+    if (!opened) {
+      envelope.classList.add("open");
+      textEl.innerText = textos[0];
+      opened = true;
+    }
+  });
+
+  nextBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // evita fechar ao clicar
+    index++;
+    if (index < textos.length) {
+      textEl.innerText = textos[index];
+    } else {
+      nextBtn.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>
